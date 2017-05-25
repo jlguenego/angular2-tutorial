@@ -18,6 +18,11 @@ app.use(serveIndex('.', {
 	icons: true
 }));
 
+app.use(['/src/dashboard', '/src/heroes'], function (req, res, next) {
+	console.log('routing url');
+	res.sendFile('./src/index.html', {root: __dirname});
+});
+
 app.use(function (req, res, next) {
 	console.log('404: Page not Found', req.url);
 	next();
