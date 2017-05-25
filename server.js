@@ -2,12 +2,19 @@
 
 var express = require('express'); // charge ExpressJS
 var serveIndex = require('serve-index');
+const bodyParser = require('body-parser');
+const ws = require('./webservices.js');
 
 const webpack = require('webpack');
 const webpackConfig = require('./webpack.config.js');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 
 var app = express();
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use('/ws/', ws);
 
 webpackConfig.output.path = '/';
 const compiler = webpack(webpackConfig);
