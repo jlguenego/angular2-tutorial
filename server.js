@@ -18,7 +18,7 @@ app.use(serveIndex('.', {
 	icons: true
 }));
 
-app.use(['/src/dashboard', '/src/heroes'], function (req, res, next) {
+app.use(['/src/dashboard', '/src/heroes', '/src/detail/*'], function (req, res, next) {
 	console.log('routing url');
 	res.sendFile('./src/index.html', {root: __dirname});
 });
