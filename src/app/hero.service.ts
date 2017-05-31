@@ -8,7 +8,7 @@ import 'rxjs/add/operator/toPromise';
 @Injectable()
 export class HeroService {
 
-    private headers = new Headers({'Content-Type': 'application/json'});
+    private headers = new Headers({ 'Content-Type': 'application/json' });
     private heroesUrl = '../ws/heroes';  // URL to web api
     constructor(private http: Http) { }
     getHeroes(): Promise<Hero[]> {
@@ -19,8 +19,11 @@ export class HeroService {
     }
 
     getHero(id: number): Promise<Hero> {
-        return this.getHeroes()
-            .then(heroes => heroes.find(hero => hero.id === id));
+        const url = `${this.heroesUrl}/${id}`;
+        return this.http.get(url)
+            .toPromise()
+            .then(response => response.json().data as Hero)
+            .catch(this.handleError);
     }
 
     private handleError(error: any): Promise<any> {
@@ -31,7 +34,16 @@ export class HeroService {
     update(hero: Hero): Promise<Hero> {
         const url = `${this.heroesUrl}/${hero.id}`;
         return this.http
-            .put(url, JSON.stringify(hero), {headers: this.headers})
+            .put(url, JSON.stringify(hero), { headers: this.headers })
+            .toPromise()
+            .then(() => hero)
+            .catch(this.handleError);
+    }
+
+    create(hero: Hero): Promise<Hero> {
+        const url = `${this.heroesUrl}`;
+        return this.http
+            .post(url, JSON.stringify(hero), { headers: this.headers })
             .toPromise()
             .then(() => hero)
             .catch(this.handleError);

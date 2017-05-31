@@ -55,6 +55,24 @@ router.get('/heroes', (req, res, next) => {
     });
 });
 
+router.get('/heroes/:id', (req, res, next) => {
+    console.log('req.params', req.params);
+    const hero = heroes.find(hero => hero.id === +req.params.id);
+    res.json({
+        data: hero
+    });
+});
+
+router.post('/heroes', (req, res, next) => {
+    console.log('req.params', req.params);
+    console.log('req.body', req.body);
+
+    heroes.push(req.body);
+    res.json({
+        status: 'ok'
+    });
+});
+
 router.put('/heroes/:id', (req, res, next) => {
     console.log('req.params', req.params);
     heroes.find(hero => hero.id === +req.params.id).name = req.body.name;
@@ -62,3 +80,4 @@ router.put('/heroes/:id', (req, res, next) => {
         status: 'ok'
     });
 });
+
