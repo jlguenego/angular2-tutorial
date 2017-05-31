@@ -44,6 +44,8 @@ const heroes = [{
     }
 ];
 
+let lastId = 20;
+
 router.use((req, res, next) => {
     console.log('ws', req.url);
     next();
@@ -66,10 +68,11 @@ router.get('/heroes/:id', (req, res, next) => {
 router.post('/heroes', (req, res, next) => {
     console.log('req.params', req.params);
     console.log('req.body', req.body);
-
-    heroes.push(req.body);
+    lastId++;
+    const hero = {name: req.body.name, id: lastId};
+    heroes.push(hero);
     res.json({
-        status: 'ok'
+        data: hero
     });
 });
 
