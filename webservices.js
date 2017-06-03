@@ -84,3 +84,16 @@ router.put('/heroes/:id', (req, res, next) => {
     });
 });
 
+router.delete('/heroes/:id', (req, res, next) => {
+    const hero = heroes.find(hero => hero.id === +req.params.id);
+    if (hero === undefined) {
+        res.sendStatus(404);
+    }
+    const index = heroes.indexOf(hero);
+    heroes.splice(index, 1);
+    res.status(204);
+    res.json({
+        status: 'ok'
+    });
+});
+
